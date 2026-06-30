@@ -1,21 +1,23 @@
 from digital_twin.components.localizer import Localizer
+from digital_twin.telemetry.logger import TelemetryLogger
 
 localizer = Localizer()
 
-for minute in range(20):
+logger = TelemetryLogger()
+
+for minute in range(100):
 
     localizer.update()
 
     state = localizer.get_state()
 
-    print("=" * 60)
-    print(f"Simulation Minute : {state['time']}")
+    logger.log(state)
 
-    print("\nEnvironment")
-    print(state["environment"])
+    print(
+        f"Minute {state['time']} | "
+        f"RF Power: {state['amplifier']['rf_power']} dBm | "
+        f"Fan Health: {state['fan']['health']}%"
+    )
 
-    print("\nCooling Fan")
-    print(state["fan"])
-
-    print("\nRF Amplifier")
-    print(state["amplifier"])
+print("\nSimulation Complete!")
+print("Telemetry saved to data/localizer_telemetry.csv")

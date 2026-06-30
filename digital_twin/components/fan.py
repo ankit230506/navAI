@@ -24,3 +24,7 @@ class CoolingFan(Component):
         self.calculate_health()
 
         self.rpm = 3000 * (self.health / 100)
+    def get_state(self):
+        state = super().get_state()
+        state["rpm"] = round(self.rpm, 2)
+        return state
